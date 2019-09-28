@@ -1,0 +1,37 @@
+{
+  "name": "universal-tunes",
+  "version": "1.0.0",
+  "description": "painless music sharing in every platform",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently --names \"typescript,node\" \"tsc -w\" \"nodemon --experimental-modules ./dist/index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jocalafe/universal-tunes.git"
+  },
+  "keywords": [
+    "music"
+  ],
+  "author": "jocalafe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jocalafe/universal-tunes/issues"
+  },
+  "homepage": "https://github.com/jocalafe/universal-tunes#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/node": "^12.7.8",
+    "concurrently": "^4.1.2",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.2"
+  }
+}
