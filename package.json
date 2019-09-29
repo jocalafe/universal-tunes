@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --names \"typescript,node\" \"tsc -w\" \"nodemon --experimental-modules ./dist/index.js\"",
+    "start:dev": "npm run build:dev",
+    "build:dev": "nodemon 'src/app.ts' --exec 'ts-node' src/app.ts -e ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint -p tsconfig.json"
   },
@@ -25,7 +26,6 @@
   "devDependencies": {
     "@types/express": "^4.17.1",
     "@types/node": "^12.7.8",
-    "concurrently": "^4.1.2",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3"
