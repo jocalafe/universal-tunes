@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "painless music sharing in every platform",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "start:dev": "npm run build:dev",
     "build:dev": "nodemon 'src/app.ts' --exec 'ts-node' src/app.ts -e ts",
