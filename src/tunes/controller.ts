@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
-import { Spotify } from './platform';
+import * as platforms from './platforms';
 
-export const getTrack = async (req: Request, res: Response) => {
-  const { params: { name } } = req;
+export const getTracks = async (req: Request, res: Response) => {
+  const { query: { url } } = req;
 
-  console.log(`searching for song ${name} in platforms`);
+  console.log(`searching for track ${url} in platforms`);
 
-  const spotify = new Spotify();
+  const spotify = new platforms.Spotify();
 
-  const trackUrl = await spotify.getTrackUrl(name).catch(console.error);
+  const trackDetails = await spotify.getTrackDetails(url);
+
+  const trackUrl = await spotify.getTrackUrl(trackDetails.name).catch(console.error);
 
   res.send({ trackUrl });
 };

@@ -1,5 +1,5 @@
-import Spotify from '@/tunes/platform/Spotify';
-import { TrackNotFoundError } from '@/tunes/platform/error';
+import Spotify from '@/tunes/platforms/Spotify';
+import { TrackNotFoundError } from '@/tunes/platforms/error';
 import SpotifyWebApi from 'spotify-web-api-node';
 
 jest.mock('spotify-web-api-node');
@@ -30,7 +30,7 @@ describe('Spotify', () => {
     });
   });
 
-  describe('getTrackUrl', () => {
+  describe('methods', () => {
     let spotify: Spotify;
     const mock = {
       clientCredentialsGrant: jest.fn().mockResolvedValue({
@@ -48,31 +48,88 @@ describe('Spotify', () => {
       spotify = new Spotify();
     });
 
-    test('returns url when song is found', (done) => {
-      mock.searchTracks.mockResolvedValue({
-        body: {
-          tracks: {
-            items: [{
-              external_urls: {
-                spotify: 'spotify.com/testtrack',
-              },
-            }],
+    describe('getTrackDetails', () => {
+      test('returns details when song is found', (done) => {
+        mock.searchTracks.mockResolvedValue({
+          body: {
+            tracks: {
+              items: [{
+                album: {
+                  name: 'testalbum',
+                },
+                artists: [{
+                  name: 'testartist',
+                }],
+                external_urls: {
+                  spotify: 'spotify.com/testtrack',
+                },
+                name: 'testtrack',
+              }],
+            },
           },
-        },
+        });
+
+        spotify.getTrackDetails('https://open.spotify.com/tracks/testtrack').then((trackUrl) => {
+          expect(trackUrl).toStrictEqual({
+            album: 'testalbum',
+            artists: ['testartist'],
+            name: 'testtrack',
+          });
+
+          done();
+        });
+
       });
 
-      spotify.getTrackUrl('testtrack').then((trackUrl) => {
-        expect(trackUrl).toBe('spotify.com/testtrack');
-        done();
+      test('throws error when track not found', (done) => {
+        mock.searchTracks.mockResolvedValue({ body: {} });
+
+        spotify.getTrackDetails('https://open.spotify.com/tracks/testtrack').catch((error) => {
+          expect(error).toBeInstanceOf(TrackNotFoundError);
+          done();
+        });
       });
     });
 
-    test('throws error when track not found', (done) => {
-      mock.searchTracks.mockResolvedValue({ body: {} });
+    describe('getTrackUrl', () => {
+      test('returns url when song is found', (done) => {
+        mock.searchTracks.mockResolvedValue({
+          body: {
+            tracks: {
+              items: [{
+                external_urls: {
+                  spotify: 'https://open.spotify.com/tracks/testtrack',
+                },
+              }],
+            },
+          },
+        });
 
-      spotify.getTrackUrl('testtrack').catch((error) => {
-        expect(error).toBeInstanceOf(TrackNotFoundError);
-        done();
+        spotify.getTrackUrl('testtrack').then((trackUrl) => {
+          expect(trackUrl).toBe('https://open.spotify.com/tracks/testtrack');
+          done();
+        });
+      });
+
+      test('throws error when track not found', (done) => {
+        mock.searchTracks.mockResolvedValue({ body: {} });
+
+        spotify.getTrackUrl('testtrack').catch((error) => {
+          expect(error).toBeInstanceOf(TrackNotFoundError);
+          done();
+        });
+      });
+    });
+
+    describe('isPlatformUrl', () => {
+      test('is spotify url', () => {
+        expect(spotify.isPlatformUrl('https://open.spotify.com/tracks/testtrack'))
+          .toBeTruthy();
+      });
+
+      test('is not spotify url', () => {
+        expect(spotify.isPlatformUrl())
+          .toBeFalsy();
       });
     });
   });
