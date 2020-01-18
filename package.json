@@ -9,7 +9,7 @@
     "build:dev": "nodemon 'src/app.ts' --exec 'ts-node' src/app.ts -e ts",
     "test": "jest",
     "test:watch": "npm run test -- --watch",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "eslint --ext ts ."
   },
   "repository": {
     "type": "git",
@@ -30,10 +30,12 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.8",
     "@types/spotify-web-api-node": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "eslint": "^6.8.0",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
     "tslint-jest": "^1.0.5",
     "typescript": "^3.6.3"
   },

@@ -1,3 +1,3 @@
-export interface IPlatform {
+export interface Platform {
   getTrackUrl(name: string): Promise<string>;
 }

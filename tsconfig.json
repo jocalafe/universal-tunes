@@ -21,6 +21,10 @@
     "es6"
   ],
   "include": [
-    "src"
+    "src",
+    "test"
+  ],
+  "exclude": [
+    "dist"
   ]
 }

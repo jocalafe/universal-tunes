@@ -1,6 +1,6 @@
 import Spotify from '@/tunes/platform/Spotify';
-import { TrackNotFoundError } from '@/tunes/platform/error';
 import SpotifyWebApi from 'spotify-web-api-node';
+import { TrackNotFoundError } from '@/tunes/platform/error';
 
 jest.mock('spotify-web-api-node');
 
@@ -35,7 +35,7 @@ describe('Spotify', () => {
     const mock = {
       clientCredentialsGrant: jest.fn().mockResolvedValue({
         body: {
-          access_token: 'test',
+          access_token: 'test', // eslint-disable-line @typescript-eslint/camelcase
         },
       }),
       searchTracks: jest.fn(),
@@ -53,7 +53,7 @@ describe('Spotify', () => {
         body: {
           tracks: {
             items: [{
-              external_urls: {
+              external_urls: { // eslint-disable-line @typescript-eslint/camelcase
                 spotify: 'spotify.com/testtrack',
               },
             }],

@@ -1,14 +1,14 @@
 import SpotifyWebApi from 'spotify-web-api-node';
 import { TrackNotFoundError } from './error';
-import { IPlatform } from './index.d';
+import { Platform } from './index.d';
 
 const grantAccess = async (spotifyApi: SpotifyWebApi) => {
-  const { body: { access_token } } = await spotifyApi.clientCredentialsGrant();
+  const { body: { access_token: accessToken } } = await spotifyApi.clientCredentialsGrant();
 
-  spotifyApi.setAccessToken(access_token);
+  spotifyApi.setAccessToken(accessToken);
 };
 
-export default class Spotify implements IPlatform {
+export default class Spotify implements Platform {
   private api: SpotifyWebApi;
 
   constructor() {
